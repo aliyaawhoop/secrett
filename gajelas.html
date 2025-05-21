@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesan Untuk Kamu</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #ffd6e7;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background-color 1s ease;
+        }
+        
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .first-screen, .second-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: opacity 1s ease;
+            width: 100%;
+        }
+        
+        .first-screen {
+            opacity: 1;
+        }
+        
+        .second-screen {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            color: #ff4081;
+            text-shadow: 3px 3px 0px #ffffff;
+        }
+        
+        .next-btn {
+            margin-top: 20px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .next-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .love-message {
+            font-size: 2.5rem;
+            color: #ff4081;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 0px #ffffff;
+        }
+        
+        .flower {
+            position: absolute;
+            font-size: 30px;
+            animation: floatUp 15s linear infinite;
+            z-index: 1;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0;
+            animation: popHeart 0.6s ease-out;
+            z-index: 1;
+        }
+        
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes popHeart {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="first-screen">
+            <h1>haaiii bubb</h1>
+            <button class="next-btn" onclick="showSecondScreen()">next</button>
+        </div>
+        
+        <div class="second-screen">
+            <p class="love-message">gatauu wes mau nulis apa, intinya I LOVE U</p>
+        </div>
+    </div>
+
+    <script>
+        function showSecondScreen() {
+            document.querySelector('.first-screen').style.opacity = '0';
+            document.querySelector('.first-screen').style.pointerEvents = 'none';
+            
+            document.querySelector('.second-screen').style.opacity = '1';
+            document.querySelector('.second-screen').style.pointerEvents = 'auto';
+            
+            document.body.style.backgroundColor = '#ffb6c1';
+            
+            // Create flowers
+            createFlowers();
+            
+            // Create heart fireworks
+            setInterval(createHeartFirework, 300);
+        }
+        
+        function createFlowers() {
+            const flowers = ['🌸', '🌹', '🌺', '🌷', '🌻', '💐'];
+            
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const flower = document.createElement('div');
+                    flower.className = 'flower';
+                    flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+                    flower.style.left = Math.random() * 100 + 'vw';
+                    flower.style.animationDuration = (Math.random() * 5 + 10) + 's';
+                    document.body.appendChild(flower);
+                    
+                    // Remove flower after animation completes
+                    setTimeout(() => {
+                        flower.remove();
+                    }, 15000);
+                }, i * 300);
+            }
+            
+            // Continue creating flowers
+            setInterval(() => {
+                const flower = document.createElement('div');
+                flower.className = 'flower';
+                flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+                flower.style.left = Math.random() * 100 + 'vw';
+                flower.style.animationDuration = (Math.random() * 5 + 10) + 's';
+                document.body.appendChild(flower);
+                
+                // Remove flower after animation completes
+                setTimeout(() => {
+                    flower.remove();
+                }, 15000);
+            }, 1000);
+        }
+        
+        function createHeartFirework() {
+            const hearts = ['❤️', '💕', '💖', '💗', '💓', '💘'];
+            const x = Math.random() * window.innerWidth;
+            const y = Math.random() * window.innerHeight * 0.7;
+            
+            // Create center heart
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+            heart.style.left = x + 'px';
+            heart.style.top = y + 'px';
+            document.body.appendChild(heart);
+            
+            // Remove heart after animation
+            setTimeout(() => {
+                heart.remove();
+            }, 600);
+            
+            // Create firework particles
+            createFireworkParticles(x, y);
+        }
+        
+        function createFireworkParticles(x, y) {
+            const colors = ['#ff4081', '#ff80ab', '#f06292', '#ec407a', '#e91e63'];
+            
+            for (let i = 0; i < 20; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 100 + 50;
+                
+                const particle = document.createElement('div');
+                particle.className = 'firework';
+                particle.style.left = x + 'px';
+                particle.style.top = y + 'px';
+                particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Set custom property for animation
+                particle.style.setProperty('--tx', (Math.cos(angle) * distance) + 'px');
+                particle.style.setProperty('--ty', (Math.sin(angle) * distance) + 'px');
+                
+                document.body.appendChild(particle);
+                
+                // Remove particle after animation
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>
